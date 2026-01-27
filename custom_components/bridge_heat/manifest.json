@@ -1,0 +1,8 @@
+{
+  "domain": "bridge_heat",
+  "name": "Bridge Heat",
+  "version": "1.0.0",
+  "config_flow": true,
+  "dependencies": [],
+  "codeowners": ["@kenzo-bento"]
+}
