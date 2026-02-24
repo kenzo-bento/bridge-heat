@@ -3,6 +3,7 @@
   "content_in_root": false,
   "render_readme": false,
   "country": ["US"],
+  "config_flow": true,
   "homeassistant": "2024.6.0",
   "domains": ["bridge_heat"],
   "filename": "logo.png"
