@@ -6,7 +6,7 @@ async def async_setup_entry(hass, entry, async_add_entities):
 
 class TemperatureSensor(Entity):
     _attr_name = "Temperature"
-    _attr_unique_id = "bridge_heat_temperature"
+    _attr_unique_id = "temperature"
     _attr_unit_of_measurement = "°C"
 
     @property
