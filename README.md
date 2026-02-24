@@ -1,99 +1,56 @@
 # Bridge Heat
 
-**Bridge Heat** is a custom Home Assistant integration that collects temperature sensor data from your Home Assistant instance and uploads it to an external database for monitoring, analytics, and research use cases.
+Bridge Heat is a lightweight Home Assistant integration designed to collect selected environmental sensor data and securely upload it for external analysis.
 
-This integration is designed for users who want reliable, structured access to long-term temperature data outside of Home Assistant’s built-in recorder.
+## What Bridge Heat Does
+
+Bridge Heat allows you to share temperature-related sensor data from your Home Assistant instance. The integration periodically gathers data from supported sensors and transmits it to an external database for academic research.
 
 ---
 
-## Features
+## What Data Is Collected
 
-- Collects temperature readings from Home Assistant sensors  
-- Periodic sampling at configurable intervals  
-- Uploads data to an external database or API endpoint  
-- Configurable via the Home Assistant UI (config flow)  
-- Suitable for research, analytics, and long-term storage  
+Bridge Heat only collects the types of data you explicitly allow during setup.
+
+Depending on your selection, this may include:
+
+- 🌡 **Temperature data**
+- 💧 **Humidity data**
+- 🌬 **Pressure data**
+
+Only sensor values and timestamps are collected.  
+No personal information, location data, account credentials, or unrelated entities are accessed.
+
+---
+
+## Your Control & Permissions
+
+You are always in control.
+
+During the next step of setup, you will be asked to choose which sensor categories you want to enable. Only the options you select will be collected and uploaded.
+
+If you change your mind later, you can modify your permissions at any time in the integration's Options settings.
+
+---
+
+## Transparency & Privacy
+
+Bridge Heat does **not**:
+- Modify your sensors
+- Control devices
+- Access cameras or media
+- Collect unrelated Home Assistant data
+
+It reads only the sensor types you approve and operates in the background at scheduled intervals.
 
 ---
 
 ## Installation
 
-### Option 1: HACS (Recommended)
+1. After pressing Download, restart Home Assistant.
+2. Go to Settings --> Devices & services --> Bridge Heat --> Add integration.
+3. When you click Add integration, you will be prompted to select your permissions.
 
-1. Open **HACS** in Home Assistant  
-2. Go to **Integrations**  
-3. Click **⋮ → Custom repositories**  
-4. Add this repository URL  
-   - Category: **Integration**
-5. Search for **Bridge Heat** and install
-6. Restart Home Assistant
-
----
-
-### Option 2: Manual Installation
-
-1. Copy the `bridge_heat` folder into: /config/custom_components/bridge_heat/
-2. Restart Home Assistant
-
----
-
-## Configuration
-
-After installation:
-
-1. Go to **Settings → Devices & Services**
-2. Click **Add Integration**
-3. Search for **Bridge Heat**
-4. Follow the setup steps to:
-- Select permissions for environmental data
-- Configure upload intervals
-
-All configuration is handled through the UI — no YAML required.
-
----
-
-## Data Handling
-
-- Temperature values are collected asynchronously from Home Assistant entities
-- Data is batched and uploaded at configurable intervals
-- No data is stored permanently inside Home Assistant unless explicitly configured
-
----
-
-## Use Cases
-
-- Research data collection  
-- Long-term environmental monitoring  
-- External analytics pipelines  
-- Data science and modeling workflows  
-
----
-
-## Requirements
-
-- Home Assistant 2023.6 or newer (recommended)
-- At least one temperature sensor entity
-- Network access to the external database or API endpoint
-
----
-
-## Roadmap
-
-- [ ] Support for additional sensor types  \
-- [ ] Support for additional data variables \
-
----
-
-## Contributing
-
-Contributions are welcome!
-
-If you encounter bugs or have feature requests, please open an issue on GitHub.
-
----
-
-## License
-
-MIT License
+Please review your choices carefully before continuing.
 
 
