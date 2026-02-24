@@ -4,5 +4,6 @@
   "render_readme": false,
   "country": ["US"],
   "homeassistant": "2024.6.0",
-  "domains": ["bridge_heat"]
+  "domains": ["bridge_heat"],
+  "file_name": "logo.png"
 }
