@@ -1,7 +1,7 @@
 {
   "name": "Bridge Heat",
   "content_in_root": false,
-  "render_readme": true,
+  "render_readme": false,
   "country": ["US"],
   "homeassistant": "2024.6.0",
   "domains": ["bridge_heat"]
