@@ -2,9 +2,11 @@
 
 Bridge Heat is a lightweight Home Assistant integration designed to collect selected environmental sensor data and securely upload it for external analysis.
 
+
 ## What Bridge Heat Does
 
 Bridge Heat allows you to share temperature-related sensor data from your Home Assistant instance. The integration periodically gathers data from supported sensors and transmits it to an external database for academic research.
+
 
 ## What Data Is Collected
 
@@ -27,6 +29,7 @@ During the next step of setup, you will be asked to choose which sensor categori
 
 If you change your mind later, you can modify your permissions at any time in the integration's Options settings.
 
+
 ## Transparency & Privacy
 
 Bridge Heat does **not**:
@@ -36,6 +39,7 @@ Bridge Heat does **not**:
 - Collect unrelated Home Assistant data
 
 It reads only the sensor types you approve and operates in the background at scheduled intervals.
+
 
 ## Installation
 
