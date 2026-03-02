@@ -37,3 +37,4 @@ async def send_temperature(samples: list[dict]):
 
 
 
+
