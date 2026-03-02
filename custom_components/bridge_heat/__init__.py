@@ -1,3 +1,4 @@
+import json
 import asyncio
 from datetime import datetime, timedelta
 
@@ -27,14 +28,15 @@ async def fetch_temperature(hass: HomeAssistant):
         cur = conn.cursor()
 
         # Query: join states and metadata, filter sensors by unit in attributes
-        query = f"""
-        SELECT s.metadata_id, m.entity_id, s.state, s.last_updated_ts
-        FROM states s
-        JOIN states_meta m ON s.metadata_id = m.metadata_id
-        WHERE m.entity_id LIKE "sensor.%temp%"
-        AND s.last_updated_ts >= strftime('%s','now') - ?
-        ORDER BY s.metadata_id, s.last_updated_ts;
-        """
+        query = f"""SELECT s.metadata_id, m.entity_id, a.shared_attrs, s.last_updated_ts
+                    FROM states s
+                    JOIN states_meta m 
+                    ON s.metadata_id = m.metadata_id
+                    JOIN state_attributes a
+                    ON s.attributes_id = a.attributes_id
+                    WHERE m.entity_id LIKE "sensor.bridge_heat"
+                    AND s.last_updated_ts >= strftime('%s','now') - ?
+                    ORDER BY s.metadata_id, s.last_updated_ts;"""
 
         cur.execute(query, (SAMPLE_INTERVAL,))
         rows = cur.fetchall()
@@ -43,9 +45,10 @@ async def fetch_temperature(hass: HomeAssistant):
         results = []
         for r in rows:
             try:
-                temperature = float(r["state"])
-            except (ValueError, TypeError):
-                continue  # skip non-numeric states
+                attrs = json.loads(r["shared_attrs"])
+                temperature = float(attrs.get("temperature"))
+            except (ValueError, TypeError, json.JSONDecodeError):
+                continue  # skip bad rows
 
             results.append({
                 "entity": r["entity_id"],
@@ -68,8 +71,6 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry):
     async def upload_job(now):
         if entry.options.get(TEMP):
             samples = await fetch_temperature(hass)
-            with open("debug.txt", "a") as f:
-                f.write("Permission Granted. \n")
             if not samples:
                 _LOGGER.info("No Samples to Upload")
                 return
@@ -80,9 +81,6 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry):
 
             except Exception as err:
                 _LOGGER.error("Upload failed: %s", err)
-        else:
-            with open("debug.txt", "a") as f:
-                f.write("Permission Denied. \n")
 
     # Schedule periodically
 
