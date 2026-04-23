@@ -36,5 +36,7 @@ Specifically, the state and attributes of the entities are collected.
 
 ## Acknowledgements
 
+We gratefully acknowledge the research contributions of Mount Sinai Health System and the Johns Hopkins Bloomberg School of Public Health.
+
 ![Logo](https://upload.wikimedia.org/wikipedia/en/4/47/Bloomberg.logo.small.horizontal.blue.png)
 ![Logo](https://www.aaos.org/globalassets/video-portal/partner-logos/mountsinai500-tr.png)
