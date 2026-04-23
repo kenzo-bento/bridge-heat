@@ -1,52 +1,39 @@
-## Bridge Heat
 
-Bridge Heat is a lightweight Home Assistant integration designed to collect selected environmental sensor data and securely upload it for external analysis.
+# Bridge Heat
 
-
-## What Bridge Heat Does
-
-Bridge Heat allows you to share temperature-related sensor data from your Home Assistant instance. The integration periodically gathers data from supported sensors and transmits it to an external database for academic research.
-
-
-## What Data Is Collected
-
-Bridge Heat only collects the types of data you explicitly allow during setup.
-
-Depending on your selection, this may include:
-
-- 🌡 **Temperature data**
-- 💧 **Humidity data**
-- 🌬 **Pressure data**
-
-Only sensor values and timestamps are collected.  
-No personal information, location data, account credentials, or unrelated entities are accessed.
-
-## Your Control & Permissions
-
-You are always in control.
-
-During the next step of setup, you will be asked to choose which sensor categories you want to enable. Only the options you select will be collected and uploaded.
-
-If you change your mind later, you can modify your permissions at any time in the integration's Options settings.
-
-
-## Transparency & Privacy
-
-Bridge Heat does **not**:
-- Modify your sensors
-- Control devices
-- Access cameras or media
-- Collect unrelated Home Assistant data
-
-It reads only the sensor types you approve and operates in the background at scheduled intervals.
+A Home Assistant Integration that collects environmental sensor data, with user-controlled options for secure data sharing for analysis.
 
 
 ## Installation
 
-1. After pressing Download, restart Home Assistant.
-2. Go to Settings --> Devices & services --> Bridge Heat --> Add integration.
-3. When you click Add integration, you will be prompted to select your permissions.
+(1.) After pressing Download, restart Home Asisstant. 
 
-Please review your choices carefully before continuing.
+Settings &rarr; Developer's Tools &rarr; Restart
+
+(2.) Add the Bridge Heat Integration to your home. 
+
+(Settings &rarr; Devices & services &rarr; Bridge Heat &rarr; Add Integration)
+
+(3.) Review your permission choices carefully before starting the integration.
+
+## Changing Permissions
+
+(1.) Navigate to the Bridge Heat Integration on your device.
+
+(Settings &rarr; Devices & services &rarr; Bridge Heat)
+
+(2.) Change your permissions by configuring the Permissions entity.
 
 
+
+    
+## Data Collected
+- Temperature, Pressure, and Humidity Data
+- Light, Noise, and Air Quality Data
+- Energy and HVAC Data
+
+Specifically, the state and attributes of the entities are collected.
+
+## Acknowledgements
+
+![Logo](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/th5xamgrr6se0x5ro4g6.png)
