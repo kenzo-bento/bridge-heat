@@ -8,7 +8,7 @@ A Home Assistant Integration that collects environmental sensor data, with user-
 
 (1.) After pressing Download, restart Home Asisstant. 
 
-Settings &rarr; Developer's Tools &rarr; Restart
+(Settings &rarr; Developer's Tools &rarr; Restart)
 
 (2.) Add the Bridge Heat Integration to your home. 
 
