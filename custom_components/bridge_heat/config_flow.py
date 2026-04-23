@@ -1,13 +1,19 @@
 from homeassistant.helpers import selector
 from homeassistant import config_entries
 import voluptuous as vol
-from .const import DOMAIN, TEMP, HUMIDITY, PRESSURE, PERMS_TITLE
+from .const import *
 
 
 PERMS_SCHEMA = vol.Schema({
     vol.Optional(TEMP, default=False): bool,
     vol.Optional(HUMIDITY, default=False): bool,
     vol.Optional(PRESSURE, default=False): bool,
+    vol.Optional(LIGHT, default=False): bool,
+    vol.Optional(HVAC, default=False): bool,
+    vol.Optional(ENERGY, default=False): bool,
+    vol.Optional(NOISE, default=False): bool,
+    vol.Optional(AQ, default=False): bool,
+    #add more permissions here
 })
 
 class ConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
@@ -50,6 +56,27 @@ class OptionsFlowHandler(config_entries.OptionsFlow):
                         PRESSURE,
                         default=self.config_entry.options.get(PRESSURE, False),
                     ): bool,
+                    vol.Optional(
+                        LIGHT,
+                        default=self.config_entry.options.get(LIGHT, False),
+                    ): bool,
+                    vol.Optional(
+                        HVAC,
+                        default=self.config_entry.options.get(HVAC, False),
+                    ): bool,
+                    vol.Optional(
+                        ENERGY,
+                        default=self.config_entry.options.get(ENERGY, False),
+                    ): bool,
+                    vol.Optional(
+                        NOISE,
+                        default=self.config_entry.options.get(NOISE, False),
+                    ): bool,
+                    vol.Optional(
+                        AQ,
+                        default = self.config_entry.options.get(AQ, False),
+                    ): bool,
+                    #add more permissions here
                 }),
             )
 
@@ -57,5 +84,7 @@ class OptionsFlowHandler(config_entries.OptionsFlow):
             title="",
             data=user_input,
         )
+
+
 
 
