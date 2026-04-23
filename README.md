@@ -36,4 +36,5 @@ Specifically, the state and attributes of the entities are collected.
 
 ## Acknowledgements
 
-![Logo](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/th5xamgrr6se0x5ro4g6.png)
+![Logo]([https://dev-to-uploads.s3.amazonaws.com/uploads/articles/th5xamgrr6se0x5ro4g6.png](https://upload.wikimedia.org/wikipedia/en/4/47/Bloomberg.logo.small.horizontal.blue.png))
+![Logo](https://www.aaos.org/globalassets/video-portal/partner-logos/mountsinai500-tr.png)
