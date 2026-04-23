@@ -7,7 +7,7 @@ _LOGGER = logging.getLogger(__name__)
 
 print("__name__:", __name__)
 
-async def send_temperature(samples: list[dict]):
+async def send_data(samples: list[dict]):
     headers = {
         "apikey": KEY,
         "Authorization": f"Bearer {KEY}",
@@ -18,7 +18,6 @@ async def send_temperature(samples: list[dict]):
     valid_samples = []
     for s in samples:
         try:
-            s["temperature"] = float(s["temperature"])
             valid_samples.append(s)
         except (ValueError, TypeError):
             continue
@@ -34,7 +33,6 @@ async def send_temperature(samples: list[dict]):
             pass
     # Simulate async network I/O
     await asyncio.sleep(0)
-
 
 
 
