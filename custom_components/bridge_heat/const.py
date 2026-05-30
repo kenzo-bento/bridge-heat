@@ -3,7 +3,7 @@ PLATFORMS = ["sensor"]
 
 UPLOAD_INTERVAL = 60 * 24 * 60 # seconds
 SAMPLE_INTERVAL = 60 * 24 * 60
-URL = "https://ucnsqqxukixwcraqqdxk.supabase.co/rest/v1/bridgeheat"
+URL = "https://rupvzdyytqxmpplraztt.supabase.co/rest/v1/bridgeheat"
 KEY = "sb_secret_4jlAjWFgrbVh44Y_nkOvYw_Wj5D_gfU"
 
 TEMP = "Temperature"
