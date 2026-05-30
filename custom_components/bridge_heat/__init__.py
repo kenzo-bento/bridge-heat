@@ -1,16 +1,23 @@
 import json
 import asyncio
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, time
 
 from homeassistant.core import HomeAssistant
 from homeassistant.config_entries import ConfigEntry
-from homeassistant.helpers.event import async_track_time_interval
 
 from .const import *
 from .uploader import send_data
 
 import logging
 import sqlite3
+
+import random
+
+from homeassistant.helpers.event import (
+    async_call_later,
+    async_track_time_interval,
+)
+from homeassistant.util import dt as dt_util
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -72,6 +79,10 @@ async def fetch_data(hass: HomeAssistant, entry: ConfigEntry):
         cur.execute(query, params)
         rows = cur.fetchall()
         conn.close()
+        latitude = hass.config.latitude
+        longitude = hass.config.longitude
+
+        location = str(latitude) + ', ' + str(longitude)
 
         results = []
         for r in rows:
@@ -80,13 +91,15 @@ async def fetch_data(hass: HomeAssistant, entry: ConfigEntry):
             except (ValueError, TypeError, json.JSONDecodeError):
                 continue
             state = str(r["state"])
-
             results.append({
+                "location": location,
                 "entity": r["entity_id"],
                 "attributes": attrs,
                 "state": state,
                 "time": datetime.utcfromtimestamp(r["last_updated_ts"]).strftime("%Y-%m-%d %H:%M:%S")
             })
+            with open("debug.txt", "w") as f:
+                f.write(f"{results}\n")
         return results
 
     # Run blocking SQLite query in a separate thread for asynchronous function
@@ -94,34 +107,82 @@ async def fetch_data(hass: HomeAssistant, entry: ConfigEntry):
 
 async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry):
     _LOGGER.info("Bridge Heat called")
+
     hass.data[DOMAIN][entry.entry_id] = {
-        "samples" : []
+        "samples": []
     }
 
-    await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
+    await hass.config_entries.async_forward_entry_setups(
+        entry,
+        PLATFORMS,
+    )
 
     async def upload_job(now):
         samples = await fetch_data(hass, entry)
+
         if not samples:
             _LOGGER.info("No Samples to Upload")
             return
 
         try:
             await send_data(samples)
+
             hass.data[DOMAIN][entry.entry_id]["samples"] = []
+
+            _LOGGER.info("Upload successful")
 
         except Exception as err:
             _LOGGER.error("Upload failed: %s", err)
 
-    # Schedule periodically
+    async def start_periodic_upload(now):
+        _LOGGER.info("Starting periodic uploads")
 
-    remove_upload = async_track_time_interval(
-        hass,
-        upload_job,
-        timedelta(seconds=UPLOAD_INTERVAL),
+        remove_upload = async_track_time_interval(
+            hass,
+            upload_job,
+            timedelta(seconds = UPLOAD_INTERVAL),
+        )
+
+        hass.data[DOMAIN][entry.entry_id]["remove_upload"] = remove_upload
+
+        # Optional:
+        # Run immediately once the random time is reached
+        await upload_job(now)
+
+    #
+    # Pick random time between 12 AM and 6 AM
+    #
+
+    now_local = dt_util.now()
+
+    random_hour = 17#random.randint(0, 5)
+    random_minute = 8#random.randint(0, 59)
+
+    target_time = datetime.combine(
+        now_local.date(),
+        time(random_hour, random_minute),
+        tzinfo=now_local.tzinfo,
     )
 
-    hass.data[DOMAIN][entry.entry_id]["remove_upload"] = remove_upload
+    # If today's random time already passed, use tomorrow
+    if target_time <= now_local:
+        target_time += timedelta(days=1)
+
+    delay = (target_time - now_local).total_seconds()
+
+    _LOGGER.info(
+        "First upload scheduled for %s",
+        target_time.isoformat(),
+    )
+
+    remove_start = async_call_later(
+        hass,
+        delay,
+        start_periodic_upload,
+    )
+
+    hass.data[DOMAIN][entry.entry_id]["remove_start"] = remove_start
+
     return True
 
 
@@ -131,5 +192,12 @@ async def async_unload_entry(hass, entry):
     if data.get("remove_upload"):
         data["remove_upload"]()
 
+    if data.get("remove_start"):
+        data["remove_start"]()
+
     return True
+
+
+
+
 
